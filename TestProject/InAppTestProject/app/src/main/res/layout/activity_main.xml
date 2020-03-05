@@ -4,34 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/btnSub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="구독 결제"
-        app:layout_constraintEnd_toStartOf="@+id/space"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".view.MainActivity">
 
     <TextView
-        android:id="@+id/space"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvVersion"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnAdsDel"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="광고 제거"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/space"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvVersion"
+        >
 
+        <Button
+            android:id="@+id/btnAdsSub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구독 결제 준비" />
 
+        <Button
+            android:id="@+id/btnAdsOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구독 결제 확인" />
+
+        <Button
+            android:id="@+id/btnPromo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="프로모션 이동" />
+
+        <Button
+            android:id="@+id/btnGetList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="BUTTON" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00ffffff</color>
+    <color name="h_transparent">#80ffffff</color>
+    <color name="real_white">#ffffffff</color>
+    <color name="real_black">#000000</color>
+
+    <color name="colorPrimary">#243255</color>
+    <color name="colorPrimaryDark">#1f151d</color>
+    <color name="colorAccent">#ffff00</color>
+    <color name="colorTextPrimary">#ffffff</color>
+</resources>

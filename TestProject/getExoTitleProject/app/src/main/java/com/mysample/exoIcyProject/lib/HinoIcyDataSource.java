@@ -37,8 +37,8 @@ public final class HinoIcyDataSource extends OkHttpDataSource {
 
     private IcyHeadersListener icyHeadersListener;
     private IcyMetadataListener icyMetadataListener;
-    private int metaDataIntervalInBytes; //메타데이터 사이 간격
-    private int remainingStreamDataUntilMetaDataBlock; //메타데이터 블락까지 남은 수
+    private int metaDataIntervalInBytes = -1; //메타데이터 사이 간격
+    private int remainingStreamDataUntilMetaDataBlock = -1; //메타데이터 블락까지 남은 수
     private DataSpec dataSpec;
 
     public interface IcyHeadersListener {
@@ -51,8 +51,6 @@ public final class HinoIcyDataSource extends OkHttpDataSource {
 
     private HinoIcyDataSource(@NonNull Call.Factory callFactory, @Nullable final String userAgent, @Nullable final Predicate<String> contentTypePredicate, @Nullable CacheControl cacheControl, @NonNull RequestProperties defaultRequestProperties) {
         super(callFactory, userAgent, contentTypePredicate, cacheControl, defaultRequestProperties);
-        metaDataIntervalInBytes = -1;
-        remainingStreamDataUntilMetaDataBlock = -1;
         defaultRequestProperties.set(REQUEST_HEADER_ICY_METAINT_KEY, REQUEST_HEADER_ICY_METAINT_VALUE);
         // See class Builder
     }
@@ -103,7 +101,7 @@ public final class HinoIcyDataSource extends OkHttpDataSource {
     public int read(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
         int bytesRead;
         // Only read metadata if the server declared to send it...
-        if (metaDataIntervalInBytes <= 0) {
+        if (metaDataIntervalInBytes < 0) {
             bytesRead = super.read(buffer, offset, readLength);
         } else {
             bytesRead = super.read(buffer, offset, remainingStreamDataUntilMetaDataBlock < readLength ? remainingStreamDataUntilMetaDataBlock : readLength);
@@ -125,52 +123,88 @@ public final class HinoIcyDataSource extends OkHttpDataSource {
         int bytesRead = super.read(metaDataBuffer, 0, 1);
         if (bytesRead != 1) {
             throw new HttpDataSourceException("parseIcyMetadata: Unable to read metadata length!", dataSpec, HttpDataSourceException.TYPE_READ);
-        }
-        int metaDataBlockSize = metaDataBuffer[0];
-        if (metaDataBlockSize < 1) { // Either no metadata or end of file
-            return;
-        }
-        metaDataBlockSize <<= 4; // Multiply by 16 to get actual size
+        } else {
+            byte var3 = metaDataBuffer[0];
+            if (var3 >= 1) {
+                int metaDataBlockSize = var3 << 4;
+                if (metaDataBuffer.length < metaDataBlockSize) {
+                    metaDataBuffer = new byte[metaDataBlockSize];
+                }
 
-        if (metaDataBuffer.length < metaDataBlockSize) {
-            metaDataBuffer = new byte[metaDataBlockSize]; // Make room for the full metadata block
-        }
+                int var4 = 0;
 
-        // Read entire metadata block into buffer
-        int offset = 0;
-        int readLength = metaDataBlockSize;
-        while (readLength > 0 && (bytesRead = super.read(metaDataBuffer, offset, readLength)) != -1) {
-            offset += bytesRead;
-            readLength -= bytesRead;
-        }
-        metaDataBlockSize = offset;
+                for (int var5 = metaDataBlockSize; var5 > 0 && (bytesRead = super.read(metaDataBuffer, var4, var5)) != -1; var5 -= bytesRead) {
+                    var4 += bytesRead;
+                }
 
-        // We read the metadata from the stream. Only parse it when we have a listener registered
-        // to return the contents.
-        if (icyMetadataListener != null) {
-            // Find null-terminator
-            for (int i = 0; i < metaDataBlockSize; i++) {
-                if (metaDataBuffer[i] == 0) {
-                    metaDataBlockSize = i;
-                    break;
+                metaDataBlockSize = var4;
+                if (this.icyMetadataListener != null) {
+                    for (int var6 = 0; var6 < metaDataBlockSize; ++var6) {
+                        if (metaDataBuffer[var6] == 0) {
+                            metaDataBlockSize = var6;
+                            break;
+                        }
+                    }
+                    try {
+                        String strTitle = "";
+                        if (isUTF8(metaDataBuffer)) {
+                            strTitle = new String(metaDataBuffer, 0, metaDataBlockSize, "utf-8");
+                        } else {
+                            strTitle = new String(metaDataBuffer, 0, metaDataBlockSize, "euc-kr");
+                        }
+                        if (!strTitle.equals("")) {
+                            this.icyMetadataListener.onIcyMetaData(parseMetadata(strTitle));
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "parseIcyMetadata: Cannot convert bytes to String");
+                    }
                 }
             }
-
-            try {
-                String strTitle = "";
-                if (isUTF8(metaDataBuffer))
-                {
-                    strTitle = new String(metaDataBuffer, 0, metaDataBlockSize, "utf-8");
-                }
-                else
-                {
-                    strTitle = new String(metaDataBuffer, 0, metaDataBlockSize, "euc-kr");
-                }
-                IcyMetadata saveIcyMetadata = this.parseMetadata(strTitle);
-                this.icyMetadataListener.onIcyMetaData(saveIcyMetadata);
-            } catch (Exception e) {
-
-            }
+//        int metaDataBlockSize = metaDataBuffer[0];
+//        if (metaDataBlockSize < 1) { // Either no metadata or end of file
+//            return;
+//        }
+//        metaDataBlockSize <<= 4; // Multiply by 16 to get actual size
+//
+//        if (metaDataBuffer.length < metaDataBlockSize) {
+//            metaDataBuffer = new byte[metaDataBlockSize]; // Make room for the full metadata block
+//        }
+//
+//        // Read entire metadata block into buffer
+//        int offset = 0;
+//        int readLength = metaDataBlockSize;
+//        while (readLength > 0 && (bytesRead = super.read(metaDataBuffer, offset, readLength)) != -1) {
+//            offset += bytesRead;
+//            readLength -= bytesRead;
+//        }
+//        metaDataBlockSize = offset;
+//
+//        // We read the metadata from the stream. Only parse it when we have a listener registered
+//        // to return the contents.
+//        if (icyMetadataListener != null) {
+//            // Find null-terminator
+//            for (int i = 0; i < metaDataBlockSize; i++) {
+//                if (metaDataBuffer[i] == 0) {
+//                    metaDataBlockSize = i;
+//                    break;
+//                }
+//            }
+//
+//            try {
+//                String strTitle = "";
+//                if (isUTF8(metaDataBuffer))
+//                {
+//                    strTitle = new String(metaDataBuffer, 0, metaDataBlockSize, "utf-8");
+//                }
+//                else
+//                {
+//                    strTitle = new String(metaDataBuffer, 0, metaDataBlockSize, "euc-kr");
+//                }
+//                IcyMetadata saveIcyMetadata = this.parseMetadata(strTitle);
+//                this.icyMetadataListener.onIcyMetaData(saveIcyMetadata);
+//            } catch (Exception e) {
+//
+//            }
 
 
 //            metaDataIntervalInBytes =- bytesRead;

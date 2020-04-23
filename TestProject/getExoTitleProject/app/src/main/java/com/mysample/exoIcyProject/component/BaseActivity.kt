@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_base.*
 
 class BaseActivity : AppCompatActivity()
 {
-    val STATIC_URL = "url"
+    val STATIC_URL = "http://45.32.61.6:8001"
     val XwIcyExoPlayer by lazy { XwIcyExoPlayer(this) }
     val XwExoPlayer by lazy { XwExoPlayer(this) }
     val XwDefaultMPlayer by lazy { XwMediaPlayer() }
@@ -107,6 +107,9 @@ class BaseActivity : AppCompatActivity()
 
     fun clearText()
     {
+        tvTitle.post(Runnable {
+
+        })
         tvTitle.text = ""
     }
 

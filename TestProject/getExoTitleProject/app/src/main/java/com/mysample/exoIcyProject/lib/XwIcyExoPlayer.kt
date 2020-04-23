@@ -3,6 +3,7 @@ package com.mysample.exoIcyProject.lib
 import android.content.Context
 import android.net.Uri
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.util.Log
 import com.google.android.exoplayer2.*
@@ -20,6 +21,7 @@ import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.util.Util
 import com.mysample.exoIcyProject.component.PlayStateReceiver
 import okhttp3.OkHttpClient
+import saschpe.exoplayer2.ext.icy.IcyHttpDataSource
 import saschpe.exoplayer2.ext.icy.IcyHttpDataSourceFactory
 import java.lang.ref.WeakReference
 
@@ -135,8 +137,10 @@ class XwIcyExoPlayer(internal var m_context: Context) : XwBasePlayer(XwBasePlaye
             Log.d(TAG, "buildMediaSource: " + uri.lastPathSegment!!)
         }
 
+//        IcyHttpDataSource
+
         val client = OkHttpClient.Builder().build()
-        val icyHttpDataSourceFactory = IcyHttpDataSourceFactory.Builder(client)
+        val hinoIcyDataSourceFactory = HinoIcyDataSourceFactory.Builder(client)
                 .setUserAgent(userAgent)
                 .setIcyMetadataChangeListener {
                     val strTitle = it.getStreamTitle()
@@ -170,12 +174,12 @@ class XwIcyExoPlayer(internal var m_context: Context) : XwBasePlayer(XwBasePlaye
         else
         {
 //            ExtractorMediaSource.Factory(DefaultDataSourceFactory(m_context, userAgent)).setExtractorsFactory(DefaultExtractorsFactory()).createMediaSource(uri)
-            ExtractorMediaSource.Factory(DefaultDataSourceFactory(m_context, null, icyHttpDataSourceFactory)).setExtractorsFactory(DefaultExtractorsFactory()).createMediaSource(uri)
+            ExtractorMediaSource.Factory(DefaultDataSourceFactory(m_context, null, hinoIcyDataSourceFactory)).setExtractorsFactory(DefaultExtractorsFactory()).createMediaSource(uri)
 //            ExtractorMediaSource.Factory(DefaultDataSourceFactory(m_context, transferListener, icyHttpDataSourceFactory)).setExtractorsFactory(DefaultExtractorsFactory()).createMediaSource(uri)
         }
     }
 
-    inner class WeakHandler : Handler()
+    inner class WeakHandler : Handler(Looper.getMainLooper())
     {
         var weakExo : WeakReference<XwIcyExoPlayer> = WeakReference(this@XwIcyExoPlayer)
 

@@ -1,6 +1,7 @@
-package com.example.mvpsample.data
+package com.example.mvvmsample.data
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 @Database(entities = [ClickVo::class], version = 1, exportSchema = false)

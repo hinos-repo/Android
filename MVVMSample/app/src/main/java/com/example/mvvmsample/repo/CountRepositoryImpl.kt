@@ -1,7 +1,8 @@
-package com.example.mvpsample.repo
+package com.example.mvvmsample.repo
 
-import com.example.mvpsample.data.AppDatabase
-import com.example.mvpsample.data.ClickVo
+import androidx.lifecycle.LiveData
+import com.example.mvvmsample.data.AppDatabase
+import com.example.mvvmsample.data.ClickVo
 
 class CountRepositoryImpl(
     private val m_database : AppDatabase

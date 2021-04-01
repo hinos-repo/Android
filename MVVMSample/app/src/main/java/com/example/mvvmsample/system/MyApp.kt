@@ -1,9 +1,9 @@
-package com.example.mvpsample.system
+package com.example.mvvmsample.system
 
 import android.app.Application
-import com.example.mvpsample.data.AppDatabase
-import com.example.mvpsample.repo.CountRepository
-import com.example.mvpsample.repo.CountRepositoryImpl
+import com.example.mvvmsample.data.AppDatabase
+import com.example.mvvmsample.repo.CountRepository
+import com.example.mvvmsample.repo.CountRepositoryImpl
 
 class MyApp : Application()
 {

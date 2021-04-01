@@ -1,17 +1,16 @@
-package com.yklib.livedatasample.factory
+package com.example.mvvmsample.viewmodel.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.yklib.livedatasample.repository.InputMsgRepository
-import com.yklib.livedatasample.viewmodel.MainViewModel
+import com.example.mvvmsample.repo.CountRepository
+import com.example.mvvmsample.viewmodel.MainViewModel
 
 class MainViewModelFactory(
-    private val inputMsgRepository: InputMsgRepository
+    private val m_repo: CountRepository
 ) : ViewModelProvider.Factory
 {
-
     override fun <T : ViewModel?> create(modelClass: Class<T>): T
     {
-        return MainViewModel(inputMsgRepository) as T
+        return MainViewModel(m_repo) as T
     }
 }

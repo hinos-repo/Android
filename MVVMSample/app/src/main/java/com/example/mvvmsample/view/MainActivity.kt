@@ -1,20 +1,22 @@
-package com.example.mvpsample.view
+package com.example.mvvmsample.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import com.example.mvpsample.R
-import com.example.mvpsample.contract.MainContract
-import com.example.mvpsample.presenter.MainPresenter
-import com.example.mvpsample.system.MyApp
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.mvvmsample.R
+import com.example.mvvmsample.viewmodel.MainViewModel
+import com.example.mvvmsample.system.MyApp
+import com.example.mvvmsample.viewmodel.factory.MainViewModelFactory
 
-class MainActivity : AppCompatActivity(),  MainContract.View
+class MainActivity : AppCompatActivity()
 {
-    private lateinit var m_presenter: MainContract.Presenter
     private lateinit var m_btnRequestData: Button
     private lateinit var m_app : MyApp
     private var m_toast : Toast? = null
+    private lateinit var m_viewModel : MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -22,17 +24,19 @@ class MainActivity : AppCompatActivity(),  MainContract.View
         setContentView(R.layout.activity_main)
 
         m_app = application as MyApp
-        m_presenter = MainPresenter(this, m_app.m_repository)
-
         m_btnRequestData = findViewById(R.id.v_btnRequestData)
-        m_btnRequestData.setOnClickListener {
-            m_presenter.saveClick()
+        m_viewModel = ViewModelProvider(this, MainViewModelFactory(m_app.m_repository)).get(MainViewModel::class.java).apply {
+            m_nCount.observe(this@MainActivity, Observer {
+                showMyToast(it)
+            })
+            m_btnRequestData.setOnClickListener {
+                m_viewModel.saveClick()
+            }
         }
     }
 
 
-
-    override fun showMyToast(nCount: Int)
+    private fun showMyToast(nCount: Int)
     {
         m_toast?.cancel()
         m_toast = Toast.makeText(this, "$nCount", Toast.LENGTH_SHORT)

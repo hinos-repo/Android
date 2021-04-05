@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IconClickView">
+        <attr name="android:paddingTop"/>
+        <attr name="android:paddingBottom"/>
+        <attr name="android:paddingStart"/>
+        <attr name="android:paddingEnd"/>
+        <attr name="iconSrc" format="reference|integer" />
+        <attr name="viewGroupColor" format="reference|integer" />
+    </declare-styleable>
+</resources>

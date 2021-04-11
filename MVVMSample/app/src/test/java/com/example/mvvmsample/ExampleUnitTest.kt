@@ -12,6 +12,15 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        var str1 = "ABCD"
+        var str2 = "ABCD"
+        println(str1 == str2)
+        println(str2.hashCode())
+
+        str1 = "ABCDE"
+        str2 = "ABCDEF"
+
+        println(str1 == str2)
+        println(str2.hashCode())
     }
 }

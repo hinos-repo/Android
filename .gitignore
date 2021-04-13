@@ -16,3 +16,6 @@ local.properties
 /MVPSample/.idea/**/gradle.xml
 /MVPSample/.idea/gradle.xml
 .idea/**/vcs.xml
+TestProject/CusViewPaintProject/.idea/jarRepositories.xml
+TestProject/CusViewPaintProject/.idea/compiler.xml
+TestProject/CusViewPaintProject/.idea/.name

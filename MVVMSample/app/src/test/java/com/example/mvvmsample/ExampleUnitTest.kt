@@ -1,5 +1,8 @@
 package com.example.mvvmsample
 
+import com.example.mvvmsample.data.AppDatabase
+import com.example.mvvmsample.data.ClickVo
+import com.example.mvvmsample.view.MainActivity
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +15,10 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
+        val c = Class.forName("com.example.mvvmsample.view.MainActivity")
+        val vo = c.newInstance() as MainActivity
+        print(vo)
+
         var str1 = "ABCD"
         var str2 = "ABCD"
         println(str1 == str2)

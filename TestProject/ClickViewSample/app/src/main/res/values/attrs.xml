@@ -5,6 +5,8 @@
         <attr name="android:paddingBottom"/>
         <attr name="android:paddingStart"/>
         <attr name="android:paddingEnd"/>
+        <attr name="iconWidth" format="dimension"/>
+        <attr name="iconHeight" format="dimension"/>
         <attr name="iconSrc" format="reference|integer" />
         <attr name="viewGroupColor" format="reference|integer" />
     </declare-styleable>

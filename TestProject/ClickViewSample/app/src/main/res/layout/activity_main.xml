@@ -16,6 +16,8 @@
         android:paddingEnd="100dp"
         android:paddingBottom="0dp"
         app:iconSrc="@mipmap/ic_launcher"
+        app:iconHeight="50dp"
+        app:iconWidth="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

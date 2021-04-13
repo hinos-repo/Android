@@ -1,4 +1,6 @@
-package com.example.dagger2sample
+package com.example.facotrymethod.template
+
+import com.example.facotrymethod.template.Coffee
 
 class Americano(override var m_name: String) : Coffee()
 {

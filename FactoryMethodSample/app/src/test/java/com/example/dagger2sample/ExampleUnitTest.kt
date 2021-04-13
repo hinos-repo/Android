@@ -1,5 +1,8 @@
-package com.example.dagger2sample
+package com.example.facotrymethod
 
+import com.example.facotrymethod.factory.CoffeeFactory
+import com.example.facotrymethod.template.Americano
+import com.example.facotrymethod.template.Latte
 import org.junit.Assert
 import org.junit.Test
 

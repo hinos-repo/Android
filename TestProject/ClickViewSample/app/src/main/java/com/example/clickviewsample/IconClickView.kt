@@ -54,9 +54,13 @@ class IconClickView : LinearLayout
         val paddingRight = typedArray.getDimension(R.styleable.IconClickView_android_paddingEnd, 0f).toInt()
         val iconResourceId = typedArray.getResourceId(R.styleable.IconClickView_iconSrc, R.mipmap.ic_launcher)
         val backgroundColor = typedArray.getColor(R.styleable.IconClickView_viewGroupColor, 0)
+        val iconHeight = typedArray.getColor(R.styleable.IconClickView_iconHeight, 0)
+        val iconWidth = typedArray.getColor(R.styleable.IconClickView_iconWidth, 0)
+
 
         this.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
         this.setBackgroundColor(backgroundColor)
         m_tvIcon.setBackgroundResource(iconResourceId)
+        m_tvIcon.layoutParams = LayoutParams(iconWidth, iconHeight)
     }
 }

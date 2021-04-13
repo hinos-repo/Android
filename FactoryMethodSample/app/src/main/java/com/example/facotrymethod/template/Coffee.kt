@@ -1,4 +1,4 @@
-package com.example.dagger2sample
+package com.example.facotrymethod.template
 
 abstract class Coffee
 {

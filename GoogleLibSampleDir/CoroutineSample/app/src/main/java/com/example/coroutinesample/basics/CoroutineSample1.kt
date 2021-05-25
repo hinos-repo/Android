@@ -8,6 +8,7 @@ import kotlinx.coroutines.*
  * 그러나 코루틴은 특정 스레드에 바인딩되지 않습니다. 한 스레드에서 실행을 일시 중단하고 다른 스레드에서 다시 시작할 수 있습니다.
  * 코루틴은 그저 경략 쓰레드라 생각할 수 있지만 실생활의 용도를 쓰레드와 매우 다르게 만드는 여러 가지 중요한 차이점이 있다.
  * */
+
 private val scope = CoroutineScope(Dispatchers.IO)
 
 fun main() = runBlocking { //테스트용으로만 runBlocking 사용, 쓰레드 전체를 중지시키기 때문에 ANR이 발생할 수 있음

@@ -31,11 +31,3 @@ suspend fun sum(s1 : String, s2 : String) : String =
         }
         defer1.await() + defer2.await()
     }
-
-//suspend fun getUser(userId: String): String =
-//    coroutineScope { // 이 suspend function을 실행할 때 사용된 스코프를 사용할 수 있게 해줍니다.
-//        val deferred = async(Dispatchers.IO) {
-//            userService.getUser(userId)
-//        }
-//        deferred.await()
-//    }

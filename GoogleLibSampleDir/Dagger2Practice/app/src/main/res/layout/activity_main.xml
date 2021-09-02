@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <variable
+            name="NoteBook"
+            type="com.hinos.dagger2practice.data.book.NoteBook" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:id="@+id/btnInsert"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="동적 생성"
+                android:onClick="onBtnInsert"
+                />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+            <Button
+                android:id="@+id/btnDefaultMac"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="기본 맥북"
+                android:onClick="onBtnDefaultMac"
+                />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+            <Button
+                android:id="@+id/btnDefaultGallaxy"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="기본 갤럭시북"
+                android:onClick="onBtnDefaultGallaxy"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            >
+
+            <EditText android:id="@+id/etCPU"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="CPU"
+                />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+
+            <EditText android:id="@+id/etRAM"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="RAM"
+                />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+
+            <EditText android:id="@+id/etDISK"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="DISK"
+                />
+
+            <EditText android:id="@+id/etCOMPANY"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="COMPANY"
+                />
+        </LinearLayout>
+        <TextView android:id="@+id/tvCPU"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@{NoteBook.CPUName}"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            />
+
+        <TextView android:id="@+id/tvRam"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@{NoteBook.ramSize}"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            />
+
+        <TextView android:id="@+id/tvDisk"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@{NoteBook.diskSize}"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            />
+
+        <TextView android:id="@+id/tvCompany"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@{NoteBook.bookFromCompany}"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
+</layout>
